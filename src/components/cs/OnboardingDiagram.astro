@@ -1,0 +1,58 @@
+<div class="diagram" role="img" aria-label="Architecture: from SAP Sales Cloud account creation the user opens a SAPUI5 onboarding app through the BTP application router. It calls a CAP registry service with a stable contract, which picks a provider adapter by sales organisation. The ARES adapter for the Czech Republic calls the register through a BTP destination; other countries can add an adapter. Validated company data goes back to Sales Cloud. Scheduled CAP jobs use the same service to detect register changes, then sync Sales Cloud or create a review task, and a discovery job stores links between register companies and accounts.">
+  <svg viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ah-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z" /></marker>
+    </defs>
+    <rect class="box" x="20" y="92" width="150" height="64" rx="4" />
+    <text class="t" x="34" y="120">SAP Sales Cloud</text>
+    <text class="s" x="34" y="140">account creation</text>
+
+    <rect class="box" x="215" y="92" width="150" height="64" rx="4" />
+    <text class="t" x="229" y="120">Onboarding app</text>
+    <text class="s" x="229" y="140">SAPUI5</text>
+
+    <rect class="box strong" x="410" y="92" width="170" height="64" rx="4" />
+    <text class="t" x="424" y="120">Registry service</text>
+    <text class="s" x="424" y="140">CAP · one contract</text>
+
+    <rect class="group" x="612" y="40" width="176" height="200" rx="6" />
+    <text class="s" x="626" y="62">Provider adapters</text>
+    <text class="s" x="626" y="80">chosen per sales org</text>
+    <rect class="box accent" x="625" y="96" width="150" height="56" rx="4" />
+    <text class="t" x="639" y="120">ARES adapter</text>
+    <text class="s" x="639" y="139">Czech Republic</text>
+    <rect class="box dashed" x="625" y="166" width="150" height="56" rx="4" />
+    <text class="t" x="639" y="190">Next country</text>
+    <text class="s" x="639" y="209">same contract</text>
+
+    <rect class="box" x="816" y="96" width="132" height="56" rx="4" />
+    <text class="t" x="828" y="120">ARES</text>
+    <text class="s" x="828" y="139">BTP destination</text>
+    <rect class="box dashed" x="816" y="166" width="132" height="56" rx="4" />
+    <text class="t" x="828" y="190">Other</text>
+    <text class="s" x="828" y="209">register</text>
+
+    <rect class="box" x="410" y="300" width="170" height="72" rx="4" />
+    <text class="t" x="424" y="328">Scheduled CAP jobs</text>
+    <text class="s" x="424" y="348">monitor · discover</text>
+
+    <rect class="box" x="625" y="300" width="160" height="72" rx="4" />
+    <text class="t" x="639" y="328">Account links</text>
+    <text class="s" x="639" y="348">company ↔ account</text>
+
+    <path class="ln" d="M170 124 H213" marker-end="url(#ah-o)" />
+    <path class="ln" d="M365 124 H408" marker-end="url(#ah-o)" />
+    <path class="ln" d="M580 124 H623" marker-end="url(#ah-o)" />
+    <path class="ln" d="M775 124 H814" marker-end="url(#ah-o)" />
+    <path class="ln ret" d="M775 194 H814" marker-end="url(#ah-o)" />
+
+    <path class="ln ret" d="M290 92 V30 H95 V90" marker-end="url(#ah-o)" />
+    <text class="e" x="112" y="22">validated company data</text>
+
+    <path class="ln" d="M495 300 V158" marker-end="url(#ah-o)" />
+    <text class="e" x="505" y="236">same adapters</text>
+    <path class="ln" d="M580 336 H623" marker-end="url(#ah-o)" />
+    <path class="ln" d="M410 336 H95 V158" marker-end="url(#ah-o)" />
+    <text class="e" x="112" y="326">sync, or a review task</text>
+  </svg>
+</div>

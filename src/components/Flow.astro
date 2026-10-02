@@ -1,0 +1,6 @@
+---
+// Renders a one-line architecture flow; **text** marks key components.
+interface Props { text: string }
+const parts = Astro.props.text.split(/\*\*(.+?)\*\*/g);
+---
+<p class="flow">{parts.map((part, i) => (i % 2 ? <b>{part}</b> : part))}</p>

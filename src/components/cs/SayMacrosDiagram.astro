@@ -1,0 +1,65 @@
+<div class="diagram" role="img" aria-label="Pipeline: speak or type, then parse, then check amounts, then resolve foods, then the user confirms. Transcription and conversational parsing use a model; food resolution uses databases first and a labelled model estimate only as a last resort. A confirmed meal is stored as an immutable snapshot in versioned local state, which can optionally sync to a per-account cloud snapshot in Supabase Postgres with row-level security.">
+  <svg viewBox="0 0 960 330" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ah-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z" /></marker>
+    </defs>
+    <rect class="box accent" x="20" y="40" width="166" height="96" rx="4" />
+    <text class="s" x="34" y="64">1</text>
+    <text class="t" x="34" y="88">Speak or type</text>
+    <text class="s" x="34" y="108">transcribed</text>
+    <text class="s" x="34" y="124">server-side</text>
+
+    <rect class="box accent" x="206" y="40" width="166" height="96" rx="4" />
+    <text class="s" x="220" y="64">2</text>
+    <text class="t" x="220" y="88">Parse</text>
+    <text class="s" x="220" y="108">rules for lists,</text>
+    <text class="s" x="220" y="124">model for speech</text>
+
+    <rect class="box" x="392" y="40" width="166" height="96" rx="4" />
+    <text class="s" x="406" y="64">3</text>
+    <text class="t" x="406" y="88">Check amounts</text>
+    <text class="s" x="406" y="108">each amount → food</text>
+    <text class="s" x="406" y="124">one stricter retry</text>
+
+    <rect class="box" x="578" y="40" width="166" height="96" rx="4" />
+    <text class="s" x="592" y="64">4</text>
+    <text class="t" x="592" y="88">Resolve foods</text>
+    <text class="s" x="592" y="108">databases first,</text>
+    <text class="s" x="592" y="124">estimates last</text>
+
+    <rect class="box strong" x="764" y="40" width="166" height="96" rx="4" />
+    <text class="s" x="778" y="64">5</text>
+    <text class="t" x="778" y="88">User confirms</text>
+    <text class="s" x="778" y="108">nothing is</text>
+    <text class="s" x="778" y="124">logged silently</text>
+
+    <path class="ln" d="M186 88 H204" marker-end="url(#ah-s)" />
+    <path class="ln" d="M372 88 H390" marker-end="url(#ah-s)" />
+    <path class="ln" d="M558 88 H576" marker-end="url(#ah-s)" />
+    <path class="ln" d="M744 88 H762" marker-end="url(#ah-s)" />
+
+    <rect class="box" x="764" y="214" width="166" height="80" rx="4" />
+    <text class="t" x="778" y="244">Meal log</text>
+    <text class="s" x="778" y="264">immutable</text>
+    <text class="s" x="778" y="280">snapshots</text>
+
+    <rect class="box" x="478" y="214" width="200" height="80" rx="4" />
+    <text class="t" x="492" y="244">Local state</text>
+    <text class="s" x="492" y="264">versioned · backup</text>
+    <text class="s" x="492" y="280">works offline</text>
+
+    <rect class="box" x="206" y="214" width="200" height="80" rx="4" />
+    <text class="t" x="220" y="244">Cloud snapshot</text>
+    <text class="s" x="220" y="264">Supabase · RLS</text>
+    <text class="s" x="220" y="280">after Google sign-in</text>
+
+    <path class="ln" d="M847 136 V212" marker-end="url(#ah-s)" />
+    <path class="ln" d="M764 254 H680" marker-end="url(#ah-s)" />
+    <path class="ln ret" d="M478 254 H408" marker-start="url(#ah-s)" marker-end="url(#ah-s)" />
+    <text class="e" x="412" y="244">opt-in</text>
+    <text class="e" x="412" y="276">sync</text>
+
+    <rect class="box accent" x="20" y="300" width="14" height="14" rx="2" />
+    <text class="s" x="42" y="312">uses a model</text>
+  </svg>
+</div>

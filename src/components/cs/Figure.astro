@@ -1,0 +1,8 @@
+---
+interface Props { caption: string; scroll?: boolean }
+const { caption, scroll = false } = Astro.props;
+---
+<figure class="figure">
+  <slot />
+  <figcaption>{scroll && <span class="scroll-hint">Scroll sideways for the full diagram. </span>}{caption}</figcaption>
+</figure>

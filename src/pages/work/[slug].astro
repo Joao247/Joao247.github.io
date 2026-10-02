@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Status from '../../components/Status.astro';
+import { site } from '../../data/profile';
+
+export async function getStaticPaths() {
+  const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+  return work.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: work[(i + 1) % work.length] },
+  }));
+}
+
+const { entry, next } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.description,
+  author: { '@type': 'Person', name: site.name, url: site.url },
+  url: new URL(`/work/${entry.id}/`, site.url).href,
+};
+---
+<Base title={`${d.title} · ${site.name}`} description={d.description} type="article" jsonLd={jsonLd} home="/">
+  <section class="cs-head">
+    <div class="wrap">
+      <a class="back" href="/#work">← All work</a>
+      <h1>{d.title}</h1>
+      <p class="dek">{d.dek}</p>
+      <dl class="cs-meta">
+        <div><dt class="label">Context</dt><dd>{d.context}</dd></div>
+        <div><dt class="label">My role</dt><dd>{d.role}</dd></div>
+        <div><dt class="label">Stack</dt><dd>{d.stack}</dd></div>
+        <div><dt class="label">Status</dt><dd><Status status={d.status} label={d.statusDetail ?? d.statusLabel} /></dd></div>
+      </dl>
+    </div>
+  </section>
+  <div class="wrap cs-end">
+    <Content />
+    {next.id !== entry.id && (
+      <a class="cs-next" href={`/work/${next.id}/`}>
+        <span class="label">Next case study</span>
+        <span class="t">{next.data.title} →</span>
+      </a>
+    )}
+  </div>
+</Base>

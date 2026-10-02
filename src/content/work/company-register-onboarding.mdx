@@ -1,0 +1,68 @@
+---
+title: Company-register onboarding for SAP Sales Cloud
+dek: For the Czech rollout of SAP Sales Cloud, sales users had to validate companies against the national company register before creating an account. I led the BTP design and implementation, built so the next country can plug in its own register, with background synchronisation to keep accounts current.
+summary: Sales users validate a company against the Czech national register and hand verified data to SAP Sales Cloud. Each register sits behind an adapter so other countries can be added, and scheduled jobs keep accounts in sync.
+description: Case study. An SAP BTP onboarding app that validates companies against a national company register (ARES) before account creation in SAP Sales Cloud, designed for multiple countries and ongoing synchronisation.
+context: Wienerberger · SAP Sales Cloud rollout
+area: SAP BTP · Integration
+role: Led BTP design and implementation
+stack: SAPUI5 · CAP Node.js · SAP Sales Cloud · BTP destinations
+status: production
+statusLabel: In production
+statusDetail: In production since March 2026
+flow: "**SAP Sales Cloud** → **SAPUI5** → **CAP registry service** → adapter per country → national register"
+order: 2
+---
+import Part from '../../components/cs/Part.astro';
+import Options from '../../components/cs/Options.astro';
+import Option from '../../components/cs/Option.astro';
+import Figure from '../../components/cs/Figure.astro';
+import OnboardingDiagram from '../../components/cs/OnboardingDiagram.astro';
+
+<Part title="The problem">
+  <p>In the Czech Republic, sales users check a company against <strong>ARES</strong>, the national company register, before creating it as an account. The legacy CRM supported this lookup, so the new SAP Sales Cloud landscape had to keep it.</p>
+  <p>The rollout was also a chance to do better: less manual data entry, authoritative company, address and registration data filled in automatically, and the national company identifier used as part of duplicate prevention.</p>
+</Part>
+
+<Part title="The workflow">
+  <ol>
+    <li>While creating an account in SAP Sales Cloud, the user opens the onboarding app.</li>
+    <li>They search the register by company name, national ID or address.</li>
+    <li>They review the matching companies and preview the one they pick.</li>
+    <li>The validated company data goes back into the Sales Cloud account-creation flow.</li>
+  </ol>
+</Part>
+
+<Part title="The key decision">
+  <p>One requirement shaped the architecture: other sales organisations and countries were likely to use different company registers later.</p>
+  <Options>
+    <Option label="Option A" title="Build directly against ARES">The fastest path to the Czech go-live, but every new country would mean reworking the UI and the service around another register's API.</Option>
+    <Option label="Chosen" title="A stable contract with an adapter per register" chosen>The SAPUI5 app and CAP service speak one generic contract. A provider factory picks the register adapter for the user's sales organisation, and ARES is the first implementation.</Option>
+  </Options>
+  <p>Adding a country means adding its provider mapping, adapter and BTP destination. The UI and service stay as they are, apart from country-specific configuration and validation where needed.</p>
+</Part>
+
+<Part title="Architecture">
+  <Figure scroll caption="Simplified and anonymised. Names describe roles, not internal components.">
+    <OnboardingDiagram />
+  </Figure>
+  <p>The app runs behind the BTP application router and reaches the register through a BTP destination. Errors from the register's API are mapped to clear messages in the app, so users never see a raw external-service failure.</p>
+</Part>
+
+<Part title="After onboarding">
+  <p>Creating the account is only the start. Company data in the register changes, so the solution also keeps accounts consistent over time.</p>
+  <ul>
+    <li><strong>Discovery.</strong> A job finds Sales Cloud accounts that originated from the register and stores the link between the register company and the account.</li>
+    <li><strong>Change monitoring.</strong> Scheduled CAP jobs check the register for changes to linked companies.</li>
+    <li><strong>Sync or review.</strong> Depending on which system owns the data for that account, a change is either synchronised into Sales Cloud or turned into a task for a person to review.</li>
+  </ul>
+</Part>
+
+<Part title="Outcome">
+  <p>The solution went live in production in March 2026, replacing the lookup from the legacy CRM with one that fills in register data and keeps it current.</p>
+</Part>
+
+<Part title="What I took from it">
+  <p>Put the seam where change is expected. Here that was the register, so the adapter boundary is the most important line in the design.</p>
+  <p>Whether to automate a sync is a question of data ownership. When the register is not the system of record for an account, a person should decide.</p>
+</Part>

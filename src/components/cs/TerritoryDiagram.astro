@@ -1,0 +1,45 @@
+<div class="diagram" role="img" aria-label="Architecture: the SAPUI5 explanation view calls a new CAP explanation endpoint over OData. The endpoint resolves the customer's current context and runs the existing determination engine with a trace collector attached, then returns the result, evaluated steps and candidates.">
+  <svg viewBox="0 80 880 290" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ah-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z" /></marker>
+    </defs>
+    <rect class="box" x="20" y="140" width="170" height="84" rx="4" />
+    <text class="s" x="36" y="166">SAPUI5</text>
+    <text class="t" x="36" y="188">Explanation view</text>
+    <text class="s" x="36" y="208">used by key users</text>
+
+    <rect class="box strong" x="290" y="140" width="200" height="84" rx="4" />
+    <text class="s" x="306" y="166">CAP service</text>
+    <text class="t" x="306" y="188">Explanation endpoint</text>
+    <text class="s" x="306" y="208">new</text>
+
+    <rect class="group" x="590" y="96" width="270" height="160" rx="6" />
+    <text class="s" x="606" y="120">Existing · same as live assignment</text>
+    <text class="t" x="606" y="144">Determination engine</text>
+    <rect class="box" x="606" y="170" width="112" height="56" rx="4" />
+    <text class="t" x="620" y="203">Rules</text>
+    <rect class="box accent" x="730" y="170" width="114" height="56" rx="4" />
+    <text class="t" x="744" y="195">Trace</text>
+    <text class="s" x="744" y="213">collector</text>
+
+    <rect class="box" x="290" y="290" width="200" height="64" rx="4" />
+    <text class="t" x="306" y="318">Context resolver</text>
+    <text class="s" x="306" y="338">current customer state</text>
+
+    <rect class="box" x="590" y="290" width="270" height="64" rx="4" />
+    <text class="t" x="606" y="318">Customer and org data</text>
+    <text class="s" x="606" y="338">system of record</text>
+
+    <path class="ln" d="M190 168 H288" marker-end="url(#ah-t)" />
+    <text class="e" x="206" y="160">explain</text>
+    <path class="ln ret" d="M290 198 H192" marker-end="url(#ah-t)" />
+    <text class="e" x="206" y="216">trace</text>
+    <path class="ln" d="M490 168 H588" marker-end="url(#ah-t)" />
+    <text class="e" x="510" y="160">run</text>
+    <path class="ln ret" d="M590 198 H492" marker-end="url(#ah-t)" />
+    <text class="e" x="510" y="216">steps</text>
+    <path class="ln" d="M390 224 V288" marker-end="url(#ah-t)" />
+    <path class="ln" d="M490 322 H588" marker-end="url(#ah-t)" />
+    <text class="e" x="516" y="314">read</text>
+  </svg>
+</div>

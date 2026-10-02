@@ -1,0 +1,15 @@
+---
+interface Props { id?: string; label: string; title: string; intro?: string }
+const { id, label, title, intro } = Astro.props;
+const headingId = `${id ?? label.toLowerCase().replace(/[^a-z]+/g, '-')}-h`;
+---
+<section class="section" id={id} aria-labelledby={headingId}>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label">{label}</span>
+      <h2 id={headingId}>{title}</h2>
+      {intro && <p>{intro}</p>}
+    </div>
+    <slot />
+  </div>
+</section>

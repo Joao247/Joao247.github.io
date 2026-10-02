@@ -1,0 +1,70 @@
+---
+title: Making territory assignments explainable
+dek: Key users kept asking why a customer had been assigned to a particular territory. I designed and built a self-service explanation that answers the question with the same logic that made the decision.
+summary: Key users needed to know why a customer landed in a territory, and answering meant developers reading code. I designed a self-service explanation built on the existing determination logic.
+description: Case study. A self-service explanation for rule-based territory assignments, built on SAP BTP with CAP and SAPUI5 by reusing the production determination logic.
+context: Wienerberger · CRM processes
+area: SAP BTP · CRM
+role: Led design and implementation
+stack: CAP Node.js · OData · SAPUI5
+status: production
+statusLabel: In production
+flow: "**SAPUI5** → OData → **CAP explanation API** → existing determination engine + trace"
+order: 1
+---
+import Part from '../../components/cs/Part.astro';
+import Options from '../../components/cs/Options.astro';
+import Option from '../../components/cs/Option.astro';
+import Figure from '../../components/cs/Figure.astro';
+import TerritoryDiagram from '../../components/cs/TerritoryDiagram.astro';
+import Trace from '../../components/cs/Trace.astro';
+
+<Part title="The problem">
+  <p>Customers are assigned to sales territories and responsible employees by a multi-step set of business rules. When a key user disagreed with an assignment, or just needed to understand it, the only route was to ask the technical team.</p>
+  <p>The rules are nuanced enough that a developer sometimes had to read the code to reconstruct a single decision. That was slow for the key user and expensive for the team, and it came up regularly.</p>
+</Part>
+
+<Part title="The goal">
+  <p>Let key users answer <strong>"why this territory?"</strong> themselves, with an answer they can trust, inside the tools they already use.</p>
+</Part>
+
+<Part title="The key decision">
+  <p>There were two ways to build it.</p>
+  <Options>
+    <Option label="Option A" title="Write separate explanation logic">Simple to start, but it duplicates the business rules. The two copies drift apart, and the explanation is most likely to be wrong for exactly the edge cases users ask about.</Option>
+    <Option label="Chosen" title="Instrument the real determination" chosen>Run the established determination logic and record what it evaluated along the way. There is one source of truth, so the explanation can't contradict the actual assignment.</Option>
+  </Options>
+</Part>
+
+<Part title="How it works">
+  <Figure scroll caption="Simplified and anonymised. Names describe roles, not internal components.">
+    <TerritoryDiagram />
+  </Figure>
+  <ol>
+    <li>A key user opens a customer in the explanation view and can name the territory they expected.</li>
+    <li>The CAP endpoint resolves the customer's current business context.</li>
+    <li>It runs the established determination logic with a trace collector attached.</li>
+    <li>The response is structured: the resulting assignment, each evaluated step, the candidates considered, and a comparison with the expected territory.</li>
+    <li>SAPUI5 renders that as a readable trace the user can step through.</li>
+  </ol>
+</Part>
+
+<Part title="What users see">
+  <Figure caption="Illustrative mock with invented data. Not the production interface.">
+    <Trace />
+  </Figure>
+</Part>
+
+<Part title="Where explanation stops">
+  <p>Some questions can't be answered from a trace. If the expected territory never entered the candidate set, there is no rule that rejected it, and the tool says exactly that instead of inventing a reason.</p>
+  <p>I handled these cases explicitly and documented the limits, so key users know when the tool has a full answer and when to ask the team.</p>
+</Part>
+
+<Part title="Outcome">
+  <p>The explanation is in production. I demonstrated it to key users, who called it intuitive and said it would be highly useful for investigating assignments that previously needed the technical team.</p>
+</Part>
+
+<Part title="What I took from it">
+  <p>Explainability is easiest to get right inside the system that makes the decision. Bolting it on from outside means maintaining two versions of the truth.</p>
+  <p>Being explicit about what a tool cannot explain is part of what makes its answers trustworthy.</p>
+</Part>

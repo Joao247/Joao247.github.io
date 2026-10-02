@@ -1,0 +1,71 @@
+---
+title: "SayMacros: log a whole meal by saying it"
+dek: A voice-first macro tracker I'm designing and building on my own. You say what you ate, a model turns it into structured foods, deterministic code checks them against nutrition databases, and you confirm before anything is logged.
+summary: A voice-first macro tracker. A model turns speech into structured foods, deterministic lookups check them against USDA and Open Food Facts, and the user confirms before anything is logged. Offline-first with account sync.
+description: Case study. SayMacros, a voice-first macro tracker built with Next.js, OpenAI, Supabase and Vercel, combining AI extraction with deterministic nutrition lookups and user confirmation.
+context: Independent product
+area: Next.js · AI
+role: Product, design and engineering
+stack: Next.js · TypeScript · OpenAI · Supabase · Vercel
+status: pre-launch
+statusLabel: Pre-launch
+flow: "**voice** → transcription → structured extraction → food-data resolution → **user confirms** → log"
+order: 3
+---
+import Part from '../../components/cs/Part.astro';
+import Figure from '../../components/cs/Figure.astro';
+import SayMacrosDiagram from '../../components/cs/SayMacrosDiagram.astro';
+
+<Part title="The problem">
+  <p>People who seriously track macros log every meal, often several foods with gram amounts. Most trackers make them search for and enter each food separately. That friction is the main reason people stop tracking.</p>
+  <p>SayMacros is built around one interaction: <strong>say what you ate, check it, log it.</strong></p>
+</Part>
+
+<Part title="The product principle">
+  <p>Speed matters, but trust matters more. A wrong number logged silently is worse than a slower entry, so the model proposes and the user confirms.</p>
+  <p>Nutrition values come from food databases first. Only when no database has the food can a model estimate it, and that estimate is labelled as one. Every logged item keeps a record of where its numbers came from.</p>
+</Part>
+
+<Part title="How a meal gets logged">
+  <Figure scroll caption="Shaded steps use a model. Food resolution uses one only as a labelled last resort, when no database has the food.">
+    <SayMacrosDiagram />
+  </Figure>
+  <ol>
+    <li><strong>Speak or type.</strong> Voice is transcribed through a server-side route, so API keys never reach the browser.</li>
+    <li><strong>Parse.</strong> Simple lists like "50g oats + 30g yogurt" are parsed by rules. Conversational speech goes to structured extraction: foods, quantities, units, brands and qualifiers.</li>
+    <li><strong>Check amounts.</strong> A separate pass lists every amount that was spoken and makes sure each one maps to a parsed food. If something is missing, there is one stricter retry. If that fails too, the confident foods are kept and only the uncertain part is asked about.</li>
+    <li><strong>Resolve foods.</strong> Personal foods and aliases come first, then USDA FoodData Central for generic foods and Open Food Facts for branded products. Generic phrases never auto-select a branded product. When several matches are close, the app asks at most one question per meal, about the food where the choice changes the macros most. If no database has the food, a model estimates it as a last resort and the result is labelled as an estimate.</li>
+    <li><strong>Confirm and log.</strong> Each logged item stores an immutable snapshot of the food, amount, macros and their source, so later catalogue changes never rewrite history.</li>
+  </ol>
+</Part>
+
+<Part title="Decisions and trade-offs">
+  <h3>Offline-first, with optional accounts</h3>
+  <p>State lives in a versioned local envelope with a last-known-good backup and migrations from older formats, so the app works without an account or a connection. Google sign-in adds an account-scoped cloud snapshot in Supabase Postgres, written only through server routes and protected by row-level security.</p>
+  <h3>Never lose data on sign-in</h3>
+  <p>Existing local data is offered for import on first sign-in and is never deleted automatically. Importing twice replaces the same snapshot, so it can't duplicate meals.</p>
+  <h3>Paid AI behind sign-in</h3>
+  <p>Transcription, model parsing and nutrition estimates require an account and are subject to usage limits. If the limits can't be enforced, those routes fail closed instead of running unmetered.</p>
+  <h3>Analytics without meal data</h3>
+  <p>A few pseudonymous events answer whether people try the app, log a first meal and come back. Events never contain meal text, transcripts, food names or quantities, and the server drops any property that isn't on an allowlist.</p>
+</Part>
+
+<Part title="What's in it">
+  <ul>
+    <li>Voice and text logging, barcode scanning and saved meals ("log my usual breakfast, but with 50 grams of oats")</li>
+    <li>Safe editing of logged meals</li>
+    <li>Calorie and macro targets with guided setup</li>
+    <li>Daily weigh-ins, a seven-day weight trend, and calorie recommendations the user confirms before they apply</li>
+    <li>Installable as a PWA on iPhone</li>
+  </ul>
+</Part>
+
+<Part title="Quality">
+  <p>Unit and route tests cover parsing, food resolution, sync, quotas and analytics, and Playwright runs end-to-end tests against the production build. GitHub Actions runs the type check, tests, build and end-to-end suite on every pull request.</p>
+  <p>I use Claude and Codex heavily while building it. Tests, CI and review decide what ships.</p>
+</Part>
+
+<Part title="Where it is now">
+  <p>SayMacros works end to end and I use it myself. It has no external users yet. The next step is validating it with real users, which matters more right now than adding features.</p>
+  <p>The source is private because I plan to turn it into a product.</p>
+</Part>

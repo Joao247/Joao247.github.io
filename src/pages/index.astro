@@ -1,0 +1,185 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Flow from '../components/Flow.astro';
+import Status from '../components/Status.astro';
+import {
+  site, hasCv, attributes, evidence, principles, experience, capabilities,
+  certifications, otherCredentials, education, languages, outsideWork, lookingFor,
+} from '../data/profile';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+
+// Add src/assets/portrait.jpg (4:5, at least 1200×1500) and it appears in the hero.
+const portraits = import.meta.glob<{ default: ImageMetadata }>('../assets/portrait.{jpg,jpeg,png,webp}', { eager: true });
+const portrait = Object.values(portraits)[0]?.default;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: site.role,
+  worksFor: { '@type': 'Organization', name: site.employer },
+  address: { '@type': 'PostalAddress', addressLocality: site.locality, addressCountry: 'AT' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Instituto Superior Técnico' },
+  knowsLanguage: ['pt', 'en', 'es', 'de'],
+  sameAs: [site.links.linkedin, site.links.github],
+};
+---
+<Base jsonLd={jsonLd}>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <h1>João Cunha<br />Pereira</h1>
+        <p class="role"><span class="seg">Enterprise software engineer</span> <span class="sep">·</span> <span class="seg">SAP BTP</span> <span class="sep">·</span> <span class="seg">AI-enabled products</span></p>
+        <p class="lead">
+          I'm the primary technical contact for <strong>about 25 SAP BTP applications</strong> at Wienerberger,
+          taking work from requirements and solution design through delivery and production support.
+          Outside work, I build AI-enabled products like <strong>SayMacros</strong>.
+        </p>
+        <div class="actions">
+          <a class="btn" href="#work">Selected work</a>
+          <a class="btn ghost" href={site.links.linkedin} rel="me">LinkedIn</a>
+          <a class="btn ghost" href={site.links.github} rel="me">GitHub</a>
+        </div>
+      </div>
+      <aside class:list={['panel', { 'has-photo': portrait }]} aria-label="Profile">
+        {portrait && (
+          <Image class="photo" src={portrait} alt={`Portrait of ${site.name}`} widths={[240, 400, 600]}
+            sizes="(max-width: 520px) 160px, (max-width: 860px) 120px, 300px" loading="eager" />
+        )}
+        <dl class="attrs">
+          {attributes.map((a) => <div><dt>{a.label}</dt><dd>{a.value}</dd></div>)}
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <Section label="In short" title="What I do" id="summary">
+    <div class="evidence">
+      {evidence.map((e) => (
+        <article>
+          <span class="label">{e.label}</span>
+          <h3>{e.title}</h3>
+          <p>{e.body}</p>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="work" label="Selected work" title="Case studies"
+    intro="Enterprise work is described at a high level, without internal data or code.">
+    <div class="work">
+      {work.map((w) => (
+        <a class="item" href={`/work/${w.id}/`}>
+          <div class="meta">
+            <span class="ctx">{w.data.context}</span>
+            <span class="label">{w.data.area}</span>
+            <Status status={w.data.status} label={w.data.statusLabel} />
+          </div>
+          <div>
+            <h3>{w.data.title}</h3>
+            <p class="desc">{w.data.summary}</p>
+            <Flow text={w.data.flow} />
+          </div>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <Section label="Approach" title="How I work" id="approach">
+    <div class="principles">
+      {principles.map((p) => (
+        <div>
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="experience" label="Experience" title="Four years in enterprise SAP BTP">
+    <div class="xp">
+      {experience.map((job) => (
+        <article class:list={{ minor: job.minor }}>
+          <p class="when">{job.when}{job.where && <><br />{job.where}</>}</p>
+          <div>
+            <h3>{job.org}</h3>
+            <p class="sub">{job.role}</p>
+            {job.groups?.map((g) => (
+              <div class="group">
+                <span class="label">{g.label}</span>
+                <ul>{g.bullets.map((b) => <li set:html={b} />)}</ul>
+              </div>
+            ))}
+            {job.bullets && <ul>{job.bullets.map((b) => <li set:html={b} />)}</ul>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="capabilities" label="Capabilities" title="Where I'm strong, and where I'm not yet">
+    <div class="caps">
+      {capabilities.map((c) => (
+        <section class:list={{ muted: c.muted }}>
+          <h3>{c.title}</h3>
+          <p class="hint">{c.hint}</p>
+          <ul>{c.items.map((i) => <li>{i}</li>)}</ul>
+        </section>
+      ))}
+    </div>
+  </Section>
+
+  <Section label="Certifications" title="SAP certifications" id="certifications">
+    <div class="certs">
+      {certifications.map((c) => (
+        <div class="cert">
+          <div>
+            <h3>{c.url ? <a href={c.url}>{c.name}</a> : c.name}</h3>
+            <p class="issuer">{c.level}</p>
+          </div>
+          <p class="dates">{c.from} – {c.to}</p>
+          <span class:list={['pill', { on: c.active }]}>{c.active ? 'Active' : 'Expired'}</span>
+        </div>
+      ))}
+    </div>
+    <p class="certs-more">{otherCredentials}</p>
+  </Section>
+
+  <Section label="Background" title="Education, languages, life" id="background">
+    <div class="facts">
+      <section>
+        <span class="label">Education</span>
+        <p><span class="strong">{education.degree}</span><br />{education.school}<br />{education.years}</p>
+      </section>
+      <section>
+        <span class="label">Languages</span>
+        <dl>
+          {languages.map((l) => <div><dt>{l.name}</dt><dd>{l.level}</dd></div>)}
+        </dl>
+      </section>
+      <section>
+        <span class="label">Outside work</span>
+        <p>{outsideWork}</p>
+      </section>
+    </div>
+  </Section>
+
+  <section class="section" id="contact" aria-labelledby="contact-h">
+    <div class="wrap contact-block">
+      <h2 class="label" id="contact-h">Contact</h2>
+      <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+      <p class="note">{lookingFor}</p>
+      <div class="links">
+        {hasCv && <a class="btn" href={site.cvPath}>Download CV</a>}
+        <a class:list={['btn', { ghost: hasCv }]} href={site.links.linkedin}>LinkedIn</a>
+        <a class="btn ghost" href={site.links.github}>GitHub</a>
+      </div>
+    </div>
+  </section>
+</Base>

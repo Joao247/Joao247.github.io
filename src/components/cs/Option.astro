@@ -1,0 +1,9 @@
+---
+interface Props { label: string; title: string; chosen?: boolean }
+const { label, title, chosen = false } = Astro.props;
+---
+<div class:list={['option', { chosen }]}>
+  <span class="label">{label}</span>
+  <h3>{title}</h3>
+  <p><slot /></p>
+</div>

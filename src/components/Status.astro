@@ -1,0 +1,5 @@
+---
+interface Props { status: 'production' | 'pre-launch'; label: string }
+const { status, label } = Astro.props;
+---
+<span class:list={['status', { pre: status === 'pre-launch' }]}>{label}</span>
