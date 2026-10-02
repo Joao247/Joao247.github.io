@@ -17,6 +17,8 @@ interface Props {
   jsonLd?: Record<string, unknown>;
   /** Prefix for in-page section links, so they work from subpages. */
   home?: string;
+  /** Keep the page out of search results (used by the 404 page). */
+  noindex?: boolean;
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   type = 'website',
   jsonLd,
   home = '',
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.url).href;
@@ -38,7 +41,7 @@ const imageUrl = new URL(image, site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta name="author" content={site.name} />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f3f4f6" media="(prefers-color-scheme: light)" />
@@ -53,7 +56,7 @@ const imageUrl = new URL(image, site.url).href;
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
