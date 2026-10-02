@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>João Cunha Pereira – CV</title>
+<meta name="author" content="João Cunha Pereira">
+<style>
+  @font-face { font-family: "Plex"; font-weight: 400; src: url("FONTDIR/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Plex"; font-weight: 500; src: url("FONTDIR/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Plex"; font-weight: 600; src: url("FONTDIR/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+
+  @page { size: A4; margin: 12mm 14mm 11mm; }
+  :root { --ink: #111317; --ink-2: #3d424b; --ink-3: #6a707b; --rule: #d4d7dc; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font: 400 8.8pt/1.37 "Plex", Arial, sans-serif; color: var(--ink-2); }
+  a { color: inherit; text-decoration: none; }
+  p, ul, h1, h2, h3 { margin: 0; }
+
+  header { display: grid; gap: 2.2pt; }
+  h1 { font: 600 21pt/1.05 "Plex", Arial, sans-serif; color: var(--ink); letter-spacing: -0.2pt; }
+  .tagline { font-size: 10.2pt; color: var(--ink-2); margin-top: 2pt; }
+  .contact { font-size: 8.4pt; color: var(--ink-3); margin-top: 4pt; }
+  .contact .sep { padding: 0 5pt; color: var(--rule); }
+  .contact a { border-bottom: 0.5pt solid var(--rule); white-space: nowrap; }
+  .contact .cases-link { color: var(--ink-2); }
+
+  section { margin-top: 10.5pt; }
+  h2 { font: 600 7.6pt/1 "Plex", Arial, sans-serif; letter-spacing: 1.1pt; text-transform: uppercase; color: var(--ink);
+       padding-bottom: 3.5pt; border-bottom: 0.6pt solid var(--rule); margin-bottom: 6pt; }
+
+  .role { margin-top: 7pt; }
+  .role:first-of-type { margin-top: 0; }
+  .role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+  h3 { font: 600 9.6pt/1.3 "Plex", Arial, sans-serif; color: var(--ink); }
+  .when { font-size: 8.4pt; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .org { font-size: 8.6pt; color: var(--ink-3); margin-top: 0.5pt; }
+  ul { list-style: none; padding: 0; margin-top: 3pt; display: grid; gap: 2.2pt; }
+  li { position: relative; padding-left: 9pt; }
+  li::before { content: ""; position: absolute; left: 1pt; top: 0.62em; width: 3pt; height: 3pt; border-radius: 50%; background: var(--ink-3); }
+  li b { font-weight: 500; color: var(--ink); }
+  .cs { font-weight: 400; font-size: 8pt; color: var(--ink-3); white-space: nowrap; border-bottom: 0.5pt solid var(--rule); }
+
+  .caps { display: grid; grid-template-columns: 54pt 1fr; gap: 3pt 10pt; }
+  .caps dt { font-weight: 500; color: var(--ink); }
+  .caps dd { margin: 0; }
+  dl { margin: 0; }
+
+  .grid3 { display: grid; grid-template-columns: 1.05fr 1.15fr 1fr; gap: 16pt; }
+  .grid3 h3 { font-size: 8.8pt; margin-bottom: 2pt; }
+  .lines { display: grid; gap: 1pt; }
+  .muted { color: var(--ink-3); }
+</style>
+</head>
+<body>
+<header>
+  <h1>João Cunha Pereira</h1>
+  <p class="tagline">Enterprise Software Engineer · SAP BTP · AI-enabled products</p>
+  <p class="contact">
+    Vienna, Austria · EU citizen<span class="sep">|</span><a href="mailto:joaomcunhapereira@gmail.com">joaomcunhapereira@gmail.com</a><span class="sep">|</span><a href="tel:+4367764306374">+43 677 64306374</a><br>
+    <a href="https://www.linkedin.com/in/joao-pereira2407/">linkedin.com/in/joao-pereira2407</a><span class="sep">|</span><a href="https://joao247.github.io/">joao247.github.io</a><span class="sep">|</span>Case studies: <a class="cases-link" href="https://joao247.github.io/work/">joao247.github.io/work</a>
+  </p>
+</header>
+
+<section>
+  <h2>Profile</h2>
+  <p>SAP BTP engineer with 4 years of experience delivering production enterprise applications in consulting and in-house roles. Primary technical contact for approximately 25 SAP BTP applications/repositories at Wienerberger, from requirements and solution design through implementation, demos and production support. Strong in CAP Node.js, SAPUI5/Fiori, OData, Cloud Foundry and SAP Sales Cloud integrations, with a growing focus on solution architecture and AI-enabled enterprise software.</p>
+</section>
+
+<section>
+  <h2>Experience</h2>
+
+  <div class="role">
+    <div class="role-head"><h3>SAP BTP Full-Stack Developer</h3><span class="when">Oct 2025 – Present</span></div>
+    <p class="org">Wienerberger · Vienna, Austria</p>
+    <ul>
+      <li><b>Own day-to-day technical responsibility</b> as the primary contact for ~25 SAP BTP applications/repositories, investigating requirements and incidents, proposing technical approaches, implementing solutions and guiding colleagues.</li>
+      <li><b>Led the BTP design and implementation of an external company-register onboarding solution</b> (SAPUI5, CAP Node.js, SAP Sales Cloud), in production since March 2026. Introduced a provider/adapter boundary so additional country registries can be supported through a new adapter and configuration while keeping the UI and service contract stable. <a class="cs" href="https://joao247.github.io/work/company-register-onboarding/">Case study</a></li>
+      <li><b>Designed and delivered a production self-service explanation tool</b> for territory/employee determination, giving key users visibility into assignment decisions that previously required developer investigation. It reuses the established rule logic and exposes decision steps and candidates through a CAP API and SAPUI5 interface. <a class="cs" href="https://joao247.github.io/work/territory-explanation/">Case study</a></li>
+      <li><b>Improve production reliability and operations</b> across integrations and background processing through root-cause analysis, recovery/error-handling improvements, monitoring/alerts and BTP memory right-sizing.</li>
+      <li><b>Work directly with key users and business stakeholders</b> in technical refinements, effort estimation, requirements discussions and solution demos; transfer BTP knowledge to colleagues and follow SAP support cases when required.</li>
+    </ul>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><h3>SAP BTP Full-Stack Developer</h3><span class="when">Sep 2022 – Sep 2025</span></div>
+    <p class="org">Stratesys · Lisbon, Portugal · Hybrid</p>
+    <ul>
+      <li><b>Delivered SAP BTP applications and extensions as a consultant</b> for client and internal product work (CAP Node.js, SAPUI5/Fiori, OData, integrations), working directly with client and functional stakeholders from requirements to support.</li>
+      <li><b>Cellnex (telecommunications):</b> built and maintained CAP services and UI5 features on a provisioning platform, automated recurring data tasks with Python/SQL, and handled production support in a client-facing environment.</li>
+      <li><b>Contributed to Pyxis, a multi-tenant treasury application</b>, implementing CAP OData services, XSUAA-secured functionality and Fiori Elements/UI5 experiences integrating enterprise finance data with BTP.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Selected project</h2>
+  <div class="role">
+    <div class="role-head"><h3>SayMacros · Independent product, pre-launch <a class="cs" href="https://joao247.github.io/work/saymacros/">Case study</a></h3><span class="when">2026 – Present</span></div>
+    <ul>
+      <li><b>Voice-first macro tracker:</b> spoken or typed meal → AI extraction → nutrition validation/estimation → user confirmation.</li>
+      <li>Next.js/React/TypeScript, OpenAI transcription and structured extraction, USDA and Open Food Facts lookups, Supabase Postgres with row-level security, Google OAuth and offline-first state; unit and Playwright E2E tests in GitHub Actions CI.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Technical capabilities</h2>
+  <dl class="caps">
+    <dt>Production</dt><dd>SAP BTP, Cloud Foundry, CAP Node.js, SAPUI5/Fiori, OData/REST, SAP Sales Cloud/C4C integration, BTP Destinations, JavaScript/TypeScript, Node.js, SQL/PostgreSQL</dd>
+    <dt>Working</dt><dd>Fiori Elements, XSUAA/OAuth, background jobs and event processing, Next.js/React, Supabase, OpenAI APIs, Playwright, GitHub Actions, Jenkins, SonarQube, Docker, Python</dd>
+    <dt>Exposure</dt><dd>S/4HANA integration, Integration Suite/CPI, SAP Build</dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Education · Certifications · Languages</h2>
+  <div class="grid3">
+    <div>
+      <h3>BSc Computer Science &amp; Engineering</h3>
+      <p>Instituto Superior Técnico</p>
+      <p class="muted">2019 – 2022</p>
+    </div>
+    <div>
+      <h3>SAP Certifications</h3>
+      <div class="lines">
+        <p>BTP Extensions with CAP</p>
+        <p>SAP Build Citizen Developer</p>
+        <p>Fiori Application Developer</p>
+        <p>Generative AI Developer</p>
+      </div>
+    </div>
+    <div>
+      <h3>Languages</h3>
+      <div class="lines">
+        <p>Portuguese <span class="muted">· native</span></p>
+        <p>English <span class="muted">· fluent</span></p>
+        <p>Spanish <span class="muted">· advanced</span></p>
+        <p>German <span class="muted">· B2 (C1 in progress)</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

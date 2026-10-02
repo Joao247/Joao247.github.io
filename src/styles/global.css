@@ -137,8 +137,8 @@ p { margin: 0; }
 }
 .work .meta { display: grid; gap: 6px; align-content: start; }
 .work .meta .ctx { font: 500 13px/1.4 var(--f-body); color: var(--ink); }
-.work h3 { font: 600 clamp(22px, 2.4vw, 28px)/1.2 var(--f-display); letter-spacing: -.02em; }
-.work a.item:hover h3 { color: var(--accent); }
+.work h3, .work .h3 { font: 600 clamp(22px, 2.4vw, 28px)/1.2 var(--f-display); letter-spacing: -.02em; }
+.work a.item:hover h3, .work a.item:hover .h3 { color: var(--accent); }
 .work .desc { margin-top: 10px; color: var(--ink-2); max-width: 40em; }
 .work .flow { margin-top: 16px; font: 13px/1.6 var(--f-mono); color: var(--ink-3); overflow-wrap: anywhere; }
 .work .flow b { color: var(--ink-2); font-weight: 500; }

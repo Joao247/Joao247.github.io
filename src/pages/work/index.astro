@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Flow from '../../components/Flow.astro';
+import Status from '../../components/Status.astro';
+import { site } from '../../data/profile';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title={`Case studies · ${site.name}`} description="Case studies in SAP BTP solution design and AI-enabled product engineering by João Cunha Pereira." home="/">
+  <section class="cs-head">
+    <div class="wrap">
+      <a class="back" href="/">← Home</a>
+      <h1>Case studies</h1>
+      <p class="dek">Enterprise work on SAP BTP at Wienerberger and an independent AI product. Enterprise work is described at a high level, without internal data or code.</p>
+    </div>
+  </section>
+  <div class="wrap cs-end">
+    <div class="work">
+      {work.map((w) => (
+        <a class="item" href={`/work/${w.id}/`}>
+          <div class="meta">
+            <span class="ctx">{w.data.context}</span>
+            <span class="label">{w.data.area}</span>
+            <Status status={w.data.status} label={w.data.statusLabel} />
+          </div>
+          <div>
+            <h2 class="h3">{w.data.title}</h2>
+            <p class="desc">{w.data.summary}</p>
+            <Flow text={w.data.flow} />
+          </div>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

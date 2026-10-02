@@ -10,7 +10,8 @@
     "check": "astro check",
     "check:links": "node scripts/check-links.mjs",
     "og": "node scripts/generate-images.mjs",
-    "verify": "npm run check && npm run build && npm run check:links"
+    "verify": "npm run check && npm run build && npm run check:links",
+    "cv": "node scripts/build-cv.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.2",
@@ -23,6 +24,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@resvg/resvg-js": "^2.6.2",
+    "pdf-lib": "^1.17.1",
+    "playwright": "^1.63.0",
     "typescript": "^5.9.3"
   }
 }

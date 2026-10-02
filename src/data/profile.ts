@@ -2,6 +2,7 @@
 // Keep claims factual: no invented metrics, titles or certifications.
 
 import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 export const site = {
   name: 'João Cunha Pereira',
@@ -23,7 +24,8 @@ export const site = {
   updated: 'October 2026',
 };
 
-export const hasCv = existsSync(new URL(`../../public${site.cvPath}`, import.meta.url));
+// Resolved from the project root: this module is bundled before it runs.
+export const hasCv = existsSync(join(process.cwd(), 'public', site.cvPath));
 
 export const attributes = [
   { label: 'Role', value: 'SAP BTP Full Stack Developer, Wienerberger' },
